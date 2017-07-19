@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>瀑布流布局</title>
+	<style>
+	   #wrap {
+	   	/*border: 1px solid red;*/
+	   }
+		.count {
+			margin: 10px;
+			width: 200px;
+			position: absolute;
+			margin: 10px;
+			transition: 0.8s;
+		}
+		.a {
+			height: 320px;
+			background: #03A9F4;
+		}
+		.b{
+			height: 300px;
+			background: #FF5722 ;
+		}
+		.c {
+			height: 253px;
+			background: #FFEB3B ;
+		}
+		.d {
+			height: 183px;
+			background: #4CAF50 ;
+		}
+		/*返回顶部按钮*/
+		#top {
+			display: block;
+			width: 40px;
+			height: 40px;
+			background: #999999;
+			color: white;
+			text-align: center;
+			line-height: 40px;
+			transform: rotate(90deg);
+			font-size: 16px;
+			position: fixed;
+			right: 10px;
+			bottom: 10px;
+		}
+		#top:hover {
+			background: #666666;
+			cursor: pointer;
+		}
+
+	
+	</style>
+</head>
+<body>
+	<div id="wrap">
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	    	<div class="count a">1</div>
+	    	<div class="count b">2</div>
+	    	<div class="count c">3</div>
+	    	<div class="count d">4</div>
+	    	<div class="count a">5</div>
+	    	<div class="count d">6</div>
+	    	<div class="count c">7</div>
+	    	<div class="count b">8</div>
+	    	<div class="count c">9</div>
+	    	<div class="count a">10</div>
+	</div>
+	<span id="top"><</span>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+
+ //  waterFull()
+
+	// $(window).resize(function(){
+	// 	waterFull()
+	// })
+
+	function waterFull(){
+			var ctWidth = $('#wrap').width()
+			var colSum = parseInt(ctWidth/$('.count').width())  //确定有多少列
+
+			// 根据 colSum 初始化数组   [0,0,0,0,0,0]
+
+			var arr = []                  // 这是数组就是高度  
+			for(var i=0; i<colSum; i++){
+				arr.push(0)
+			}
+			console.log(arr)
+			$('.count').each(function(){
+
+				var minValue = Math.min.apply(null,arr)   // 数组最小值
+				var minIndex = arr.indexOf(minValue)      // 最小值的在数组中的位置  
+
+				$(this).css({
+					'top': arr[minIndex],
+					'left': $(this).outerWidth(true)*minIndex
+				})
+
+				arr[minIndex] += $(this).outerHeight(true)
+
+				$('#wrap').outerHeight(arr[minIndex]) 
+			})
+
+	}
+
+
+	
+	var WaterFall=(function(){
+		function init(){
+			waterFull()
+			$(window).resize(function(){
+				waterFull()
+			})
+		}
+
+		return {
+			init: init
+		}
+	})()
+
+  WaterFall.init()
+
+  // 返回顶部
+
+  $('#top').hide()
+
+  $('#top').click(function(){
+  	$(window).scrollTop('0')
+  	$('#top').hide()
+  })
+  
+  $(window).scroll(function(){
+  	if($(window).scrollTop()>$(window).height()){
+  		$('#top').show()
+  	}else if($(window).scrollTop()===0){
+  		$('#top').hide()
+  	}
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+/*css reset*/
+#ct {
+	position: relative;
+	top:40px ;
+	/*border: 1px solid gray;*/
+	margin: 0 auto;
+	text-align: center;
+	width: 435px;
+	height: 280px;
+	overflow: hidden;    		
+}
+.prev {
+	position: absolute;
+	top: 180px;
+	line-height: 40px;
+	width: 60px;
+	height: 40px;
+	color: black;
+	background: #fff;
+	opacity: 0.5;
+}
+.next {
+	position: absolute;
+	right: 0;
+	top: 180px;
+	width: 60px;
+	height: 40px;
+	line-height: 40px;
+	color: black;
+	background-color: #fff;
+	opacity: 0.5;
+}
+.next:hover,
+.prev:hover {
+	opacity: 0.9;
+	cursor: pointer;
+}
+.picture {
+	width: 2610px;
+	height: 280px;
+	position: relative;
+	z-index: -1;
+	right: 435px;
+}
+.picture img {
+	float: left;
+	z-index: -1;
+	margin: 0;
+}
+
+.display {
+	display: none;
+}
+#ct .dot {
+	position: relative;
+	z-index: 10;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 7px;
+	background: white;
+	top: -34px;
+	opacity: .6;
+}
+#ct .active {
+	opacity: 1;
+}

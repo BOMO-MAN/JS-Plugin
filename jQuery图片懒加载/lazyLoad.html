@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>lazyLoad</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#ct li{
+			float: left;
+			margin: 10px 30px;
+			list-style-type: none;
+		}
+		#ct li img {
+			width: 400px;
+			height: 500px;
+		}
+		#ct:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	<ul id="ct">
+	<li class="a"><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/6.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/7.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/8.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/9.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/10.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/12.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/15.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/17.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/18.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/19.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/20.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/17.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/18.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/19.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/20.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/7.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/8.jpg"></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/9.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/10.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/12.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/15.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/17.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/18.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/19.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/20.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/17.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/18.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/19.jpg" alt=""></li>
+	<li><img src="" pic="http://cdn.jirengu.com/book.jirengu.com/img/20.jpg" alt=""></li>
+</ul>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+	var clock 
+	show()
+	$(window).scroll(function(){
+		if(clock){
+			clearTimeout(clock)
+		}
+		clock = setTimeout(function(){
+			show()
+			console.log('22222')
+		},300)
+	})
+
+	function show(){
+		$('#ct li img').each(function(){
+			var windowHeight = $(window).height()    //获取窗口的高度
+			var scrollHeight = $(window).scrollTop() // 获取滚动时，滚动的高度
+			var targerTop = $(this).offset().top     //获取该元素，距离屏幕窗口的高度
+			var dataSrc = $(this).attr('pic')        // 获取元素属性 pic
+			var src = $(this).attr('src')            // 获取元素属性src
+
+			if(src ==='' && targerTop < windowHeight + scrollHeight) {
+					$(this).attr('src',dataSrc)
+			}
+	})
+
+	}
+
+	
+
+</script>
+</body>
+</html>

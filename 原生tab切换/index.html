@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原生js插件</title>
+	<link rel="stylesheet" href="minreset.css">
+	<style>
+		#ct {
+			margin: 0 auto;
+			width: 600px;
+			text-align: center;
+		}
+		#ct:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+		#ct>li {
+			width: 33.33%;
+			height: 30px;
+			float: left;
+			line-height: 30px;
+			border: 1px solid;
+			cursor: pointer;
+		}
+		#show>li {
+			width: 600px;
+			height: 300px;
+			border: 1px solid;
+			margin: 0 auto;
+			display: none;
+		}
+		#ct .active {
+			background: gray;
+			color: #fff;
+
+		}
+		#show .active {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<ul id="ct" class="clearfix">
+		<li class="active">tab1</li>
+		<li>tab2</li>
+		<li>tab3</li>
+	</ul>
+	<ul id="show" class="clearfix">
+		<li class="active">content1</li>
+		<li>content2</li>
+		<li>content3</li>
+	</ul>
+	<script>
+		var ct = document.querySelector("#ct");
+		var show = document.querySelector("#show");
+		var ctItem = document.querySelectorAll("#ct>li");
+		var showItem = document.querySelectorAll("#show>li");
+
+
+		// 创建一个空数组 ，为了获取下标而已
+		var arr = [];
+		ctItem.forEach(function(a,i) {
+			arr.push(ctItem[i].innerText)
+		})
+		// 事件代理
+		function handle(e) {
+			var target = e.target;
+			ctItem.forEach(function(a,i) {
+				ctItem[i].classList.remove('active')
+			})
+			showItem.forEach(function(a,i){
+				showItem[i].classList.remove('active')
+			})
+			target.setAttribute('class','active')
+
+
+			arr.forEach(function(a,i) {
+				if(arr[i]===target.innerText){
+				showItem[i].setAttribute('class','active')
+			}
+			})
+			
+		}
+
+		ct.addEventListener('click',handle)
+		
+
+
+	</script>
+</body>
+</html>

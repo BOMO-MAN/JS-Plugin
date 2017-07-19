@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery轮播插件</title>
+	<link rel="stylesheet" href="minreset.css">
+	<style>
+	.img-ct img {
+		width: 790px;
+		height: 340px;
+	}
+	.carousel {
+		width: 790px;
+		height: 340px;
+		position: relative;
+		overflow: hidden;
+		margin: 0 auto;
+	}
+	.clearfix:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+	.img-ct {
+		/*width: 6320px;   // 这个宽度不能写死 要用js进行计算  */  
+		position: absolute;
+	}
+	.img-ct li {
+		float: left;
+		/*opacity: 0;*/
+	}
+
+	/*按钮*/
+	.arrow {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		border: 1px solid #fff;
+		z-index: 10;
+		position: absolute;
+		top: 50%;
+		text-decoration: none;
+		color: #ffffff;
+		line-height: 40px;
+		text-align: center;
+	}
+	.next {
+		right: 10px;
+	}
+	.prev {
+		left: 10px;
+	}
+	.arrow:hover {
+		cursor: pointer;
+		background-color: rgba(0,0,0,0.1);
+	}
+	.arrow:active {
+		background-color: rgba(0,0,0,0.3);
+	}
+	/*显示小圆点*/
+	.dot {
+		z-index: 10;
+		/*width: 400px;*/
+		position: absolute;
+		bottom: 10px;
+		left: 50%;
+		margin-left: -144px;
+		background-color: rgba(255,255,255,0.3); 
+		border-radius: 15px;
+		text-align: center;
+		/*padding: 4px;*/
+
+
+	}
+	.dot li {
+		float: left;
+		display: block;
+		width: 16px;
+		height: 16px;
+		border-radius: 8px;
+		background-color: #ffffff;
+		margin: 4px 10px;
+
+		
+	}
+	.dot .active {
+		background: red;
+	}
+
+	</style>
+</head>
+<body>
+	<div class="carousel clearfix">
+		<ul class="img-ct clearfix" >
+			<li data-id="1"><a href="#"><img src="img/1.jpg" alt="picture"></a></li>
+			<li data-id="2"><a href="#"><img src="img/2.jpg" alt="picture"></a></li>
+			<li data-id="3"><a href="#"><img src="img/3.jpg" alt="picture"></a></li>
+			<li data-id="4"><a href="#"><img src="img/4.jpg" alt="picture"></a></li>
+			<li data-id="5"><a href="#"><img src="img/5.jpg" alt="picture"></a></li>
+			<li data-id="6"><a href="#"><img src="img/6.jpg" alt="picture"></a></li>
+			<li data-id="7"><a href="#"><img src="img/7.jpg" alt="picture"></a></li>
+			<li data-id="8"><a href="#"><img src="img/8.jpg" alt="picture"></a></li>
+		</ul>
+		<a class="prev arrow" href="#"><</a>
+		<a class="next arrow" href="#">></a>
+		<ul class="dot clearfix">
+			<li class="active"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>
+		var $imgs = $('.carousel .img-ct>li')
+		var $prevBtn = $('.prev')
+		var $nextBtn = $('.next')
+		var $dot = $('.dot li')
+		var $arrow = $('.arrow')
+
+		var imgLength = $imgs.length
+		var imgWidth =$imgs.width()
+		var pageIndex = 0
+
+		var timer = null
+
+		// 头尾克隆一个li 注意缓存的问题，
+		$('.img-ct').append($imgs.first().clone())
+		$('.img-ct').prepend($imgs.last().clone())
+
+		// 确定img-ct 的宽度以便后期扩展多张轮播图
+		$('.img-ct').width((imgLength+2)*imgWidth)
+
+		//  设置第一页的位置
+		$('.img-ct').css({left: -imgWidth})
+
+		//  点击按钮事件
+		$prevBtn.click(function(){
+			playPrev(1)
+			
+		})
+		$nextBtn.click(function(){
+			playNext(1)
+	
+		})
+
+
+		//  按钮事件函数
+		function playNext(len){
+			$('.img-ct').animate({
+				left: '-='+len*imgWidth
+			},function(){
+				pageIndex+=len
+				if(pageIndex === imgLength){
+					pageIndex = 0
+					$('.img-ct').css({left: -imgWidth})
+				}
+				console.log(pageIndex+'next')
+				showDot()
+			})
+		}
+
+		function playPrev(len){
+			$('.img-ct').animate({
+				left: '+=' + len*imgWidth
+			},function(){
+				pageIndex-=len
+				if(pageIndex < 0 ){
+					pageIndex = imgLength-1
+					$('.img-ct').css({left: -imgLength*imgWidth})
+				}
+				console.log(pageIndex)
+				showDot()
+			})
+		}
+
+		//  显示点跟随函数
+		function showDot(){
+			console.log(pageIndex)
+			$dot.removeClass('active')
+			    .eq(pageIndex)
+			    .addClass('active')
+		}
+
+		//  点击点跟随函数
+		$('.dot li').click(function(){
+			var index = $(this).index()
+			console.log(index+ 'dot')
+
+			if(index < pageIndex){
+				playPrev(pageIndex-index)
+			}else if(index > pageIndex){
+				playNext(index-pageIndex)
+			}
+		})
+
+		//  自动播放定时器
+		function playAuto(){
+			 timer=setInterval(function(){
+				playNext(1)
+			},3000)
+		}
+
+		playAuto()
+		hideBtn()
+
+		//  显示、隐藏按妞函数
+		function showBtn(){
+			$arrow.show()
+		}
+		function hideBtn(){
+			$arrow.hide()
+		}
+		//  鼠标移入，移出效果
+
+		$('.carousel').mouseenter(function(){
+			clearInterval(timer)
+			showBtn()
+			console.log('stop')
+		})
+		$('.carousel').mouseleave(function(){
+			playAuto()
+			hideBtn()
+			console.log('start')
+		})
+
+
+
+	</script>
+</body>
+</html>
